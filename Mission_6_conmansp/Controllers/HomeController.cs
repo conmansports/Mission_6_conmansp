@@ -16,6 +16,7 @@ namespace Mission_6_conmansp.Controllers
         private MovieEntryContext _blahContext { get; set; }
         public HomeController(ILogger<HomeController> logger, MovieEntryContext someName)
         {
+            //get the blahContext variable filed with the instance of the context
             _logger = logger;
             _blahContext = someName;
         }
@@ -24,12 +25,12 @@ namespace Mission_6_conmansp.Controllers
         {
             return View();
         }
-
+        //Show the context page
         public IActionResult Podcasts ()
         {
             return View("MyPodcasts");
         }
-
+        //Show the movie info form
         [HttpGet]
         public IActionResult MovieInfo()
         {
@@ -39,6 +40,7 @@ namespace Mission_6_conmansp.Controllers
         [HttpPost]
         public IActionResult MovieInfo(ApplicationResponse ar)
         {
+            // Make sure that the data is valid before it is being saved to the database
             if (ModelState.IsValid)
             {
                 _blahContext.Add(ar);

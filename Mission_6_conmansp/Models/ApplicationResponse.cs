@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mission_6_conmansp.Models
 {
+    //The model for collecting the form information
     public class ApplicationResponse
     {
         [Key]
