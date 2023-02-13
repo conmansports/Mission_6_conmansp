@@ -13,9 +13,11 @@ namespace Mission_6_conmansp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private MovieEntryContext _blahContext { get; set; }
+        public HomeController(ILogger<HomeController> logger, MovieEntryContext someName)
         {
             _logger = logger;
+            _blahContext = someName;
         }
 
         public IActionResult Index()
@@ -37,7 +39,18 @@ namespace Mission_6_conmansp.Controllers
         [HttpPost]
         public IActionResult MovieInfo(ApplicationResponse ar)
         {
-            return View("Confirmation");
+            if (ModelState.IsValid)
+            {
+                _blahContext.Add(ar);
+                _blahContext.SaveChanges();
+
+                return View("Confirmation");
+            }
+            else
+            {
+                return View("EnterMovies");
+            }
+            
         }
 
         public IActionResult Privacy()

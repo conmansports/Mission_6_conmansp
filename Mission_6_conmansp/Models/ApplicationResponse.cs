@@ -12,19 +12,19 @@ namespace Mission_6_conmansp.Models
         [Required]
         public int FormID { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "A category is required")]
         public string Category { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "A title is required")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "A year is required")]
         public int Year { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "A director is required")]
         public string Director { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "A rating is required")]
         public string Rating { get; set; }
 
         public bool Edited { get; set; }
