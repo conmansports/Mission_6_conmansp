@@ -13,9 +13,6 @@ namespace Mission_6_conmansp.Models
         [Required]
         public int FormID { get; set; }
 
-        [Required(ErrorMessage = "A category is required")]
-        public string Category { get; set; }
-
         [Required(ErrorMessage = "A title is required")]
         public string Title { get; set; }
 
@@ -34,5 +31,11 @@ namespace Mission_6_conmansp.Models
 
         [StringLength(25)]
         public string Notes { get; set; }
+
+
+        // Build foreign key relationship
+        [Required(ErrorMessage = "A category is required")]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

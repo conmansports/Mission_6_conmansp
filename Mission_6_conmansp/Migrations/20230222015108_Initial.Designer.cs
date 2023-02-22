@@ -8,7 +8,7 @@ using Mission_6_conmansp.Models;
 namespace Mission_6_conmansp.Migrations
 {
     [DbContext(typeof(MovieEntryContext))]
-    [Migration("20230213223547_Initial")]
+    [Migration("20230222015108_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,9 +23,8 @@ namespace Mission_6_conmansp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -54,13 +53,15 @@ namespace Mission_6_conmansp.Migrations
 
                     b.HasKey("FormID");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("responses");
 
                     b.HasData(
                         new
                         {
                             FormID = 1,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             Director = "Joss Whedon",
                             Edited = false,
                             LentTo = "",
@@ -72,7 +73,7 @@ namespace Mission_6_conmansp.Migrations
                         new
                         {
                             FormID = 2,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             Director = "Tim Burton",
                             Edited = false,
                             LentTo = "",
@@ -84,7 +85,7 @@ namespace Mission_6_conmansp.Migrations
                         new
                         {
                             FormID = 3,
-                            Category = "Action/Adventure",
+                            CategoryId = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -93,6 +94,61 @@ namespace Mission_6_conmansp.Migrations
                             Title = "Batman Begins",
                             Year = 2005
                         });
+                });
+
+            modelBuilder.Entity("Mission_6_conmansp.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Romantic Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Thriller"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryId = 5,
+                            CategoryName = "Documentary"
+                        },
+                        new
+                        {
+                            CategoryId = 6,
+                            CategoryName = "Other"
+                        });
+                });
+
+            modelBuilder.Entity("Mission_6_conmansp.Models.ApplicationResponse", b =>
+                {
+                    b.HasOne("Mission_6_conmansp.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

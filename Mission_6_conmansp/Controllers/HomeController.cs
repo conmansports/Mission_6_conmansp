@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission_6_conmansp.Models;
 using System;
@@ -11,13 +12,11 @@ namespace Mission_6_conmansp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
         private MovieEntryContext _blahContext { get; set; }
-        public HomeController(ILogger<HomeController> logger, MovieEntryContext someName)
+        public HomeController(MovieEntryContext someName)
         {
             //get the blahContext variable filed with the instance of the context
-            _logger = logger;
             _blahContext = someName;
         }
 
@@ -34,7 +33,9 @@ namespace Mission_6_conmansp.Controllers
         [HttpGet]
         public IActionResult MovieInfo()
         {
-            return View("EnterMovies");
+            ViewBag.categories = _blahContext.categories.ToList();
+
+            return View();
         }
 
         [HttpPost]
@@ -50,20 +51,54 @@ namespace Mission_6_conmansp.Controllers
             }
             else
             {
-                return View("EnterMovies");
+                ViewBag.categories = _blahContext.categories.ToList();
+
+                return View();
             }
             
         }
 
-        public IActionResult Privacy()
+        public IActionResult MovieList()
         {
-            return View();
+            var entry = _blahContext.responses.Include(x => x.Category).OrderBy(x => x.Title ).ToList();
+
+            return View(entry);
+        }
+        [HttpGet]
+        public IActionResult Edit(int FormID)
+        {
+            ViewBag.categories = _blahContext.categories.ToList();
+
+            var movie = _blahContext.responses.Single(x => x.FormID == FormID);
+
+            return View("movieinfo", movie);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult Edit (ApplicationResponse mov)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            _blahContext.Update(mov);
+            _blahContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(int FormID)
+        {
+            var movie = _blahContext.responses.Single(x => x.FormID == FormID);
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(ApplicationResponse ar)
+        {
+
+            _blahContext.responses.Remove(ar);
+            _blahContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }

@@ -14,15 +14,26 @@ namespace Mission_6_conmansp.Models
         }
 
         public DbSet<ApplicationResponse> responses { get; set; }
+        public DbSet<Category> categories { get; set; }
 
+        //Seed Data
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryId = 1, CategoryName = "Action/Adventure" },
+                new Category { CategoryId = 2, CategoryName = "Romantic Comedy" },
+                new Category { CategoryId = 3, CategoryName = "Thriller" },
+                new Category { CategoryId = 4, CategoryName = "Comedy" },
+                new Category { CategoryId = 5, CategoryName = "Documentary" },
+                new Category { CategoryId = 6, CategoryName = "Other" }
+            );
+
             mb.Entity<ApplicationResponse>().HasData(
                     
                     new ApplicationResponse
                     {
                         FormID = 1,
-                        Category = "Action/Adventure",
+                        CategoryId = 1,
                         Title = "The Avengers",
                         Year = 2012,
                         Director = "Joss Whedon",
@@ -35,7 +46,7 @@ namespace Mission_6_conmansp.Models
                     new ApplicationResponse
                     {
                         FormID = 2,
-                        Category = "Action/Adventure",
+                        CategoryId = 1,
                         Title = "Batman",
                         Year = 1989,
                         Director = "Tim Burton",
@@ -48,7 +59,7 @@ namespace Mission_6_conmansp.Models
                     new ApplicationResponse
                     {
                         FormID = 3,
-                        Category = "Action/Adventure",
+                        CategoryId = 1,
                         Title = "Batman Begins",
                         Year = 2005,
                         Director = "Christopher Nolan",
